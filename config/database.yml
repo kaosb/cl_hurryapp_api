@@ -17,7 +17,7 @@ test:
   database: cl_hurryapp_test
   socket: /tmp/mysql.sock
   username: root
-  password: 
+  password: kaosbite
 
 production:
   <<: *default
