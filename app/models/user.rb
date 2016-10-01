@@ -9,4 +9,9 @@ class User < ApplicationRecord
 	validates_uniqueness_of :nick_name, :message => "El nombre de usuario que indicaste ya existe."
 	validates_uniqueness_of :email, :message => "La direccion de correo electronico que indicaste ya existe."
 
+	# Encriptar el password
+	def self.encript(password)
+		Digest::SHA1.hexdigest(password)
+	end
+
 end

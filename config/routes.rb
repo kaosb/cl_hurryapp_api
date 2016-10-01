@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 		scope '/v1' do
 			scope '/users' do
 				post '/' => 'users#create'
+				post '/login' => 'users#login'
 				# get '/' => 'doctor_api#show'
 				# patch '/' => 'doctor_api#update'
 				# post '/pushnotification' => 'doctor_api#pushnotification'

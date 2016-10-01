@@ -23,7 +23,7 @@ class UsersController < ApplicationController
 		params.delete :image
 		user = User.new(user_params)
 		# Aseguro la password y creo un token para el usuario.
-		user.password = Digest::SHA1.hexdigest(params[:password])
+		user.password = User.encript(params[:password])
 		if user.save
 			render :json => { :status => true, :message => "La nueva cuenta fue creada.", :token => user.token }, :status => 201
 		else
@@ -36,6 +36,19 @@ class UsersController < ApplicationController
 			render :json => { :status => true, :message => "El medico fue modificado." }, :status => 200
 		else
 			render :json => { :status => false, :message => "No fue posible actualizar el medico." }, :status => 401
+		end
+	end
+
+	def login
+		if !params[:email].nil? && !params[:password].nil?
+			user = User.where(email: params[:email], password: User.encript(params[:password]))
+			if !user.empty?
+				render :json => { :status => true, :message => "Usuario autenticado.", :token => user.first.token }, :status => 200
+			else
+				render :json => { :status => false, :message => "No fue posible posible autenticar al usuario." }, :status => 200
+			end
+		else
+			render :json => { :status => false, :message => "No fue posible posible autenticar al usuario.", :errors => "Parametros insuficientes." }, :status => 401
 		end
 	end
 
