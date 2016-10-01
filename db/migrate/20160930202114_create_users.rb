@@ -13,7 +13,7 @@ class CreateUsers < ActiveRecord::Migration[5.0]
 			t.decimal :height, null: true
 			t.decimal :weight, null: true
 			t.integer :purpose, null: true
-			t.string :purpose_quantity, null: true
+			t.integer :purpose_quantity, null: true
 			t.text :image_url, null: true
 			t.timestamps
 			t.boolean :status, default: 1, null: true

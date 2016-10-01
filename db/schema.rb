@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(version: 20160930202114) do
     t.decimal  "height",                         precision: 10
     t.decimal  "weight",                         precision: 10
     t.integer  "purpose"
-    t.string   "purpose_quantity"
+    t.integer  "purpose_quantity"
     t.text     "image_url",        limit: 65535
     t.datetime "created_at",                                                   null: false
     t.datetime "updated_at",                                                   null: false
