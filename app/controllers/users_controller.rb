@@ -1,20 +1,11 @@
 class UsersController < ApplicationController
 
 	def show
-		person = Doctor.find_by_password_token(params[:auth_token])
-		if person
-			# Si es doctor obtengo sus consultores asociados.
-			if !person.is_consultant
-				medical_consultants = DoctorMedicalConsultant.where(doctor_id: person.id)
-				consultants = Array.new
-				medical_consultants.each do |consultant|
-					temp_consultant = Doctor.find_by_id(consultant.medical_consultant_id)
-					consultants << temp_consultant
-				end
-			end
-			render :json => { :status => true, :message => "El medico existe.", :person => person, :consultants => !consultants.nil? ? consultants : nil }, :status => 200
+		user = User.where(token: params[:token])
+		if user
+			render :json => { :status => true, :message => "El usuario existe.", :user => user }, :status => 200
 		else
-			render :json => { :status => false, :message => "El medico no existe." }, :status => 401
+			render :json => { :status => false, :message => "El usuario no existe." }, :status => 401
 		end
 	end
 
@@ -22,7 +13,7 @@ class UsersController < ApplicationController
 		# Bloque para guardar archivo en caso de ser pertinente.
 		if !params[:image].nil?
 			uploaded_io = params[:image]
-			filename = 'profile_img_'+Time.now.to_i.to_s+'_'+uploaded_io.original_filename.gsub(' ', '_').downcase!
+			filename = 'profile_img_'+Time.now.to_i.to_s+'_'+uploaded_io.original_filename.gsub(/[^0-9A-Z]/i, '_').downcase!
 			File.open(Rails.root.join('public', 'uploads', filename), 'wb') do |file|
 				file.write(uploaded_io.read)
 			end
@@ -42,19 +33,19 @@ class UsersController < ApplicationController
 	end
 
 	def update
-		if @doctor.update_attributes(user_params)
-			# if !params[:consultant_drug][:thumb].nil?
-			# 	uploaded_io = params[:consultant_drug][:thumb]
-			# 	filename = 'consultant_drug_'+Time.now.to_i.to_s+'_'+uploaded_io.original_filename.gsub(' ', '_')
-			# 	File.open(Rails.root.join('public', 'uploads', filename), 'wb') do |file|
-			# 		file.write(uploaded_io.read)
-			# 	end
-			# 	@consultantdrug.thumb = request.base_url + '/uploads/' + filename
-			# 	@consultantdrug.save
-			# end
-			render :json => { :status => true, :message => "El medico fue modificado." }, :status => 200
+		user = User.find_by_token(params[:token])
+		if user.update_attributes(user_params)
+			if !params[:image].nil?
+				filename = 'profile_img_'+Time.now.to_i.to_s+'_'+uploaded_io.original_filename.gsub(/[^0-9A-Z]/i, '_').downcase!
+				File.open(Rails.root.join('public', 'uploads', filename), 'wb') do |file|
+					file.write(uploaded_io.read)
+				end
+				user.image_url = request.base_url + '/uploads/' + filename
+				user.save
+			end
+			render :json => { :status => true, :message => "La cuenta fue actualizada." }, :status => 200
 		else
-			render :json => { :status => false, :message => "No fue posible actualizar el medico." }, :status => 401
+			render :json => { :status => false, :message => "No fue posible actualizar la cuenta." }, :status => 401
 		end
 	end
 
@@ -81,14 +72,12 @@ class UsersController < ApplicationController
 			:email,
 			:password,
 			:token,
-			:deviceid,
-			:device,
+			:device_so,
 			:gender,
 			:age,
 			:height,
 			:weight,
 			:purpose,
-			:purpose_unit,
 			:purpose_quantity,
 			:image_url,
 			:status

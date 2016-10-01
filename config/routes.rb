@@ -6,8 +6,8 @@ Rails.application.routes.draw do
 			scope '/users' do
 				post '/' => 'users#create'
 				post '/login' => 'users#login'
-				# get '/' => 'doctor_api#show'
-				# patch '/' => 'doctor_api#update'
+				patch '/:token' => 'users#update'
+				get '/:token' => 'users#show'
 				# post '/pushnotification' => 'doctor_api#pushnotification'
 			end
 		end
