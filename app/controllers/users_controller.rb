@@ -13,7 +13,7 @@ class UsersController < ApplicationController
 		# Bloque para guardar archivo en caso de ser pertinente.
 		if !params[:image].nil?
 			uploaded_io = params[:image]
-			filename = 'profile_img_'+Time.now.to_i.to_s+'_'+uploaded_io.original_filename.gsub(/[^0-9A-Z]/i, '_').downcase!
+			filename = 'profile_img_'+Time.now.to_i.to_s+'_'+uploaded_io.original_filename.gsub(/^[\w,\s-]+\.[A-Za-z]{3}$/i, '_').downcase!
 			File.open(Rails.root.join('public', 'uploads', filename), 'wb') do |file|
 				file.write(uploaded_io.read)
 			end
@@ -36,7 +36,7 @@ class UsersController < ApplicationController
 		user = User.find_by_token(params[:token])
 		if user.update_attributes(user_params)
 			if !params[:image].nil?
-				filename = 'profile_img_'+Time.now.to_i.to_s+'_'+uploaded_io.original_filename.gsub(/[^0-9A-Z]/i, '_').downcase!
+				filename = 'profile_img_'+Time.now.to_i.to_s+'_'+uploaded_io.original_filename.gsub(/^[\w,\s-]+\.[A-Za-z]{3}$/i, '_').downcase!
 				File.open(Rails.root.join('public', 'uploads', filename), 'wb') do |file|
 					file.write(uploaded_io.read)
 				end
