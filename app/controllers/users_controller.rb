@@ -19,22 +19,48 @@ class UsersController < ApplicationController
 	end
 
 	def create
-
-		if !params[:nick_name].nil? && !params[:email].nil? && !params[:password].nil?
-			#&& User.exists?(nick_name: params[:nick_name]) && User.exists?(email: params[:email])
-			render :json => { :status => true, :message => "Se creo la cuenta.." }, :status => 201
+		# Creo el nuevo registro, con la informacion aportada.
+		params.delete :image
+		user = User.new(user_params)
+		# Aseguro la password y creo un token para el usuario.
+		user.password = Digest::SHA1.hexdigest(params[:password])
+		if user.save
+			render :json => { :status => true, :message => "La nueva cuenta fue creada.", :token => user.token }, :status => 201
 		else
-			render :json => { :status => false, :message => "No fue posible autenticar y/o activar al medico con los datos proporcionados." }, :status => 401
+			render :json => { :status => false, :message => "No fue posible posible crear la nueva cuenta.", :errors => user.errors }, :status => 401
 		end
-
 	end
 
 	def update
-		if @doctor.update_attributes(doctor_params)
+		if @doctor.update_attributes(user_params)
 			render :json => { :status => true, :message => "El medico fue modificado." }, :status => 200
 		else
 			render :json => { :status => false, :message => "No fue posible actualizar el medico." }, :status => 401
 		end
 	end
+
+	private
+
+		def user_params
+			params.permit(
+			:first_name,
+			:last_name,
+			:nick_name,
+			:email,
+			:password,
+			:token,
+			:deviceid,
+			:device,
+			:gender,
+			:age,
+			:height,
+			:weight,
+			:purpose,
+			:purpose_unit,
+			:purpose_quantity,
+			:image_url,
+			:status
+			)
+		end
 
 end
