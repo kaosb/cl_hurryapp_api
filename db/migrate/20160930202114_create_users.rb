@@ -7,16 +7,14 @@ class CreateUsers < ActiveRecord::Migration[5.0]
 			t.string :email, null: true
 			t.string :password, null: true
 			t.string :token, null: true
-			t.string :deviceid, null: true
-			t.string :device, null: true
-			t.string :gender, null: true
-			t.string :age, null: true
-			t.string :height, null: true
-			t.string :weight, null: true
-			t.string :purpose, null: true
-			t.string :purpose_unit, null: true
+			t.string :device_so, null: true
+			t.integer :gender, null: true
+			t.integer :age, null: true
+			t.decimal :height, null: true
+			t.decimal :weight, null: true
+			t.integer :purpose, null: true
 			t.string :purpose_quantity, null: true
-			t.string :image_url, null: true
+			t.text :image_url, null: true
 			t.timestamps
 			t.boolean :status, default: 1, null: true
 		end

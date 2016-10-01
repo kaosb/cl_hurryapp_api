@@ -19,19 +19,17 @@ ActiveRecord::Schema.define(version: 20160930202114) do
     t.string   "email"
     t.string   "password"
     t.string   "token"
-    t.string   "deviceid"
-    t.string   "device"
-    t.string   "gender"
-    t.string   "age"
-    t.string   "height"
-    t.string   "weight"
-    t.string   "purpose"
-    t.string   "purpose_unit"
+    t.string   "device_so"
+    t.integer  "gender"
+    t.integer  "age"
+    t.decimal  "height",                         precision: 10
+    t.decimal  "weight",                         precision: 10
+    t.integer  "purpose"
     t.string   "purpose_quantity"
-    t.string   "image_url"
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
-    t.boolean  "status",           default: true
+    t.text     "image_url",        limit: 65535
+    t.datetime "created_at",                                                   null: false
+    t.datetime "updated_at",                                                   null: false
+    t.boolean  "status",                                        default: true
     t.index ["nick_name", "email", "token"], name: "index_users_on_nick_name_and_email_and_token", using: :btree
   end
 

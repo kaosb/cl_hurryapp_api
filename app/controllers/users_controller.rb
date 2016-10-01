@@ -19,8 +19,18 @@ class UsersController < ApplicationController
 	end
 
 	def create
-		# Creo el nuevo registro, con la informacion aportada.
+		# Bloque para guardar archivo en caso de ser pertinente.
+		if !params[:image].nil?
+			uploaded_io = params[:image]
+			filename = 'profile_img_'+Time.now.to_i.to_s+'_'+uploaded_io.original_filename.gsub(' ', '_').downcase!
+			File.open(Rails.root.join('public', 'uploads', filename), 'wb') do |file|
+				file.write(uploaded_io.read)
+			end
+			image_url = request.base_url + '/uploads/' + filename
+			params[:image_url] = image_url
+		end
 		params.delete :image
+		# Creo el nuevo registro, con la informacion aportada.
 		user = User.new(user_params)
 		# Aseguro la password y creo un token para el usuario.
 		user.password = User.encript(params[:password])
@@ -33,6 +43,15 @@ class UsersController < ApplicationController
 
 	def update
 		if @doctor.update_attributes(user_params)
+			# if !params[:consultant_drug][:thumb].nil?
+			# 	uploaded_io = params[:consultant_drug][:thumb]
+			# 	filename = 'consultant_drug_'+Time.now.to_i.to_s+'_'+uploaded_io.original_filename.gsub(' ', '_')
+			# 	File.open(Rails.root.join('public', 'uploads', filename), 'wb') do |file|
+			# 		file.write(uploaded_io.read)
+			# 	end
+			# 	@consultantdrug.thumb = request.base_url + '/uploads/' + filename
+			# 	@consultantdrug.save
+			# end
 			render :json => { :status => true, :message => "El medico fue modificado." }, :status => 200
 		else
 			render :json => { :status => false, :message => "No fue posible actualizar el medico." }, :status => 401
