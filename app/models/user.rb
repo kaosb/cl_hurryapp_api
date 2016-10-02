@@ -2,6 +2,8 @@ class User < ApplicationRecord
 
 	has_secure_token
 
+	has_many :activities, dependent: :destroy
+
 	validates_presence_of :nick_name, :message => "Es necesario un nombre de usuario."
 	validates_presence_of :email, :message => "Es necesario una direccion de correo electronico."
 	validates_presence_of :first_name, :message => "Es necesario indicar tus nombres."

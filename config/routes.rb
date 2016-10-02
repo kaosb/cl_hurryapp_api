@@ -10,6 +10,9 @@ Rails.application.routes.draw do
 				get '/:token' => 'users#show'
 				post '/validate' => 'users#validate'
 			end
+			scope '/activities' do
+				get '/:token' => 'activities#show'
+			end
 		end
 	end
 
