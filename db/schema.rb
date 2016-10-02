@@ -40,7 +40,7 @@ ActiveRecord::Schema.define(version: 20161002060513) do
   create_table "partners", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
     t.string   "name"
     t.text     "description",      limit: 65535
-    t.string   "type"
+    t.string   "slug_type"
     t.integer  "purpose_category"
     t.string   "speciality"
     t.string   "contact_type"
@@ -49,7 +49,6 @@ ActiveRecord::Schema.define(version: 20161002060513) do
     t.datetime "created_at",                                    null: false
     t.datetime "updated_at",                                    null: false
     t.boolean  "status",                         default: true
-    t.index ["name", "type", "purpose_category"], name: "index_partners_on_name_and_type_and_purpose_category", using: :btree
   end
 
   create_table "subscriptions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|

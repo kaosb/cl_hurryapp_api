@@ -3,7 +3,7 @@ class CreatePartners < ActiveRecord::Migration[5.0]
 		create_table :partners do |t|
 			t.string :name, null: true
 			t.text :description, null: true
-			t.string :type, null: true
+			t.string :slug_type, null: true
 			t.integer :purpose_category, null: true
 			t.string :speciality, null: true
 			t.string :contact_type, null: true
@@ -12,6 +12,5 @@ class CreatePartners < ActiveRecord::Migration[5.0]
 			t.timestamps
 			t.boolean :status, default: 1, null: true
 		end
-		add_index :partners, [:name, :type, :purpose_category]
 	end
 end

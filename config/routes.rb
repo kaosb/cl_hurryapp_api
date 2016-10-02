@@ -19,6 +19,10 @@ Rails.application.routes.draw do
 			scope '/goals' do
 				get '/:id' => 'goals#show'
 			end
+			scope '/partners' do
+				get '/:id' => 'partners#show'
+				get '/bytype/:slug_type' => 'partners#show_slug_type'
+			end
 		end
 	end
 
