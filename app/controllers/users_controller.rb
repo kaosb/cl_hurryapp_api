@@ -67,7 +67,7 @@ class UsersController < ApplicationController
 		response = Array.new
 		# Verificamos la disponibilidad del correo.
 		if !params[:email].nil?
-			if User.exists?(email: params[:email])
+			if !User.exists?(email: params[:email])
 				response << { email: "available" }
 			else
 				response << { email: "not available" }
@@ -75,7 +75,7 @@ class UsersController < ApplicationController
 		end
 		# Verificamos la disponibilidad del nick_name.
 		if !params[:nick_name].nil?
-			if User.exists?(nick_name: params[:nick_name])
+			if !User.exists?(nick_name: params[:nick_name])
 				response << { nick_name: "available" }
 			else
 				response << { nick_name: "not available" }
