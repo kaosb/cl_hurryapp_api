@@ -8,7 +8,7 @@ Rails.application.routes.draw do
 				post '/login' => 'users#login'
 				patch '/:token' => 'users#update'
 				get '/:token' => 'users#show'
-				# post '/pushnotification' => 'doctor_api#pushnotification'
+				post '/validate' => 'users#validate'
 			end
 		end
 	end

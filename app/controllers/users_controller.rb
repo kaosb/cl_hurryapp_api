@@ -63,6 +63,32 @@ class UsersController < ApplicationController
 		end
 	end
 
+	def validate
+		response = Array.new
+		# Verificamos la disponibilidad del correo.
+		if !params[:email].nil?
+			if User.exists?(email: params[:email])
+				response << { email: "available" }
+			else
+				response << { email: "not available" }
+			end
+		end
+		# Verificamos la disponibilidad del nick_name.
+		if !params[:nick_name].nil?
+			if User.exists?(nick_name: params[:nick_name])
+				response << { nick_name: "available" }
+			else
+				response << { nick_name: "not available" }
+			end
+		end
+		# Verifico si exisque algo en el objeto respuesta.
+		if !response.empty?
+			render :json => { :status => true, :message => "Parametros correctos.", :attributes => response }, :status => 200
+		else
+			render :json => { :status => false, :message => "Parametros insuficientes." }, :status => 401
+		end
+	end
+
 	private
 
 		def user_params
