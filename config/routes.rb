@@ -9,9 +9,15 @@ Rails.application.routes.draw do
 				patch '/:token' => 'users#update'
 				get '/:token' => 'users#show'
 				post '/validate' => 'users#validate'
+				get '/:token/goals' => 'users#get_goals'
+				get '/:token/subscriptions' => 'users#get_subscriptions'
 			end
 			scope '/activities' do
 				get '/:token' => 'activities#show'
+				get '/:token/:time_window_slug' => 'activities#show_by_time_window'
+			end
+			scope '/goals' do
+				get '/:id' => 'goals#show'
 			end
 		end
 	end

@@ -3,6 +3,8 @@ class User < ApplicationRecord
 	has_secure_token
 
 	has_many :activities, dependent: :destroy
+	has_many :subscriptions, dependent: :destroy
+	has_many :user_achieved_goals, dependent: :destroy
 
 	validates_presence_of :nick_name, :message => "Es necesario un nombre de usuario."
 	validates_presence_of :email, :message => "Es necesario una direccion de correo electronico."

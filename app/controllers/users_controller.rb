@@ -89,6 +89,24 @@ class UsersController < ApplicationController
 		end
 	end
 
+	def get_goals
+		user = User.find_by_token(params[:token])
+		if user
+			render :json => { :status => true, :message => "El usuario existe.", :goals => user.user_achieved_goals }, :status => 200
+		else
+			render :json => { :status => false, :message => "El usuario no existe." }, :status => 401
+		end
+	end
+
+	def get_subscriptions
+		user = User.find_by_token(params[:token])
+		if user
+			render :json => { :status => true, :message => "El usuario existe.", :subscriptions => user.subscriptions }, :status => 200
+		else
+			render :json => { :status => false, :message => "El usuario no existe." }, :status => 401
+		end
+	end
+
 	private
 
 		def user_params
