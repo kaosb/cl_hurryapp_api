@@ -1,0 +1,2 @@
+class UserAchievedGoalsController < ApplicationController
+end
