@@ -21,7 +21,7 @@ Rails.application.routes.draw do
 			end
 			scope '/partners' do
 				get '/:id' => 'partners#show'
-				get '/bytype/:slug_type' => 'partners#show_slug_type'
+				get '/type/:slug_type' => 'partners#show_slug_type'
 			end
 		end
 	end

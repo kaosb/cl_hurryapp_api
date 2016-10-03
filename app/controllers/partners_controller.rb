@@ -10,7 +10,7 @@ class PartnersController < ApplicationController
 	end
 
 	def show_slug_type
-		partners = Partner.find_by_slug_type(params[:slug_type])
+		partners = Partner.where(slug_type: params[:slug_type])
 		if partners
 			render :json => { :status => true, :message => "Existen partner del tipo solicitado.", :partners => partners }, :status => 200
 		else
