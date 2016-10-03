@@ -24,6 +24,9 @@ Rails.application.routes.draw do
 				get '/:id' => 'partners#show'
 				get '/type/:slug_type' => 'partners#show_slug_type'
 			end
+			scope '/subscriptions' do
+				post '/:partner_id/:token' => 'subscriptions#subscribe'
+			end
 		end
 	end
 
