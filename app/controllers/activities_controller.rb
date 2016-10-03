@@ -31,4 +31,40 @@ class ActivitiesController < ApplicationController
 		end
 	end
 
+	def add
+		if !params[:token].nil?
+			user = User.find_by_token(params[:token])
+			if user
+				params[:user_id] = user.id
+				# Verifico que si el registro para la fecha y el usuario existe o no.
+				if Activity.exists?(user_id: user.id, date: params[:date])
+					activity = Activity.where(user_id: user.id, date: params[:date]).first
+					activity.calories = params[:calories]
+					activity.steps = params[:steps]
+					activity.save
+					render :json => { :status => true, :message => "La actividad del usuario fue actualizada.", :activity => activity }, :status => 200
+				else
+					activity_new = Activity.new(activity_params)
+					activity_new.save
+					render :json => { :status => true, :message => "La actividad del usuario fue registrada.", :activity => activity_new }, :status => 200
+				end
+			else
+				render :json => { :status => false, :message => "No se encontro usuario asociado al token." }, :status => 401
+			end
+		else
+			render :json => { :status => false, :message => "Parametros insuficientes." }, :status => 401
+		end
+	end
+
+	private
+
+		def activity_params
+			params.permit(
+			:user_id,
+			:calories,
+			:steps,
+			:date
+			)
+		end
+
 end

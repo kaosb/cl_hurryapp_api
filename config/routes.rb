@@ -15,6 +15,7 @@ Rails.application.routes.draw do
 			scope '/activities' do
 				get '/:token' => 'activities#show'
 				get '/:token/:time_window_slug' => 'activities#show_by_time_window'
+				post '/:token' => 'activities#add'
 			end
 			scope '/goals' do
 				get '/:id' => 'goals#show'
